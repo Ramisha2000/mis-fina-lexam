@@ -3,25 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meal Search</title>
+    <title>Meal Finder</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
-        <h1>Meal Search</h1>
+        <h1>Meal Finder</h1>
     </header>
 
     <div id="search-container">
-        <input type="text" id="search-input" placeholder="Type a meal name...">
-        <button onclick="searchMeal()">Search</button>
+        <input type="text" id="searchBox" placeholder="Search for meals...">
+        <button onclick="connect()">Search</button>
     </div>
 
-    <div id="meals-container"></div>
-
-    <button id="show-all" style="display:none;" onclick="showAllMeals()">SHOW ALL</button>
+    <div id="container"></div>
 
     <footer>
-        <p>© 2024 Meal Finder</p>
+        <p>© 2024 Meal Finder. All rights reserved.</p>
     </footer>
 
     <script src="script.js"></script>

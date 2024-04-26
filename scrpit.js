@@ -1,29 +1,64 @@
 function connect() {
+    var searchTerm = document.getElementById("searchBox").value;
+    document.getElementById("searchBox").value = ""; // Clear the search box
+    var url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchTerm}`;
 
-    var searchTerm = document.getElementById("searchBox").value ;
-
-    document.getElementById("searchBox").value = ""; 
-    var url = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchTerm}`; 
-
-    fetch (url)
-    .then (res=> res.json() )
-    .then( data => show(data.meals))
+    fetch(url)
+        .then(response => response.json())
+        .then(data => showMeals(data.meals))
+        .catch(error => console.error('Failed to fetch meals:', error));
 }
 
-function show (data) {
- console.log (data); 
+function showMeals(meals) {
+    var container = document.getElementById("container");
+    container.innerHTML = ""; // Clear previous results
+
+    if (!meals) {
+        container.innerHTML = "<p>No meals found. Please try another search.</p>";
+        return;
+    }
+
+    let limit = Math.min(meals.length, 5);
+    meals.slice(0, limit).forEach(meal => {
+        const mealDiv = document.createElement("div");
+        mealDiv.className = "meal";
+        mealDiv.innerHTML = `
+            <h3>${meal.strMeal}</h3>
+            <p>ID: ${meal.idMeal}</p>
+            <img src="${meal.strMealThumb}" alt="Image of ${meal.strMeal}">
+            <p>Title: ${meal.strMeal}</p>
+            <p>Instructions: ${meal.strInstructions.substring(0, 100)}...</p>
+        `;
+        container.appendChild(mealDiv);
+    });
+
+    if (meals.length > 5) {
+        const showAllButton = document.createElement("button");
+        showAllButton.textContent = "SHOW ALL";
+        showAllButton.addEventListener('click', () => {
+            showAllMeals(meals);
+        });
+        container.appendChild(showAllButton);
+    }
+}
+
+function showAllMeals(meals) {
+    var container = document.getElementById("container");
+    container.innerHTML = ""; // Clear limited display
+
+    meals.forEach(meal => {
+        const mealDiv = document.createElement("div");
+        mealDiv.className = "meal";
+        mealDiv.innerHTML = `
+            <h3>${meal.strMeal}</h3>
+            <p>ID: ${meal.idMeal}</p>
+            <img src="${meal.strMealThumb}" alt="Image of ${meal.strMeal}">
+            <p>Title: ${meal.strMeal}</p>
+            <p>Instructions: ${meal.strInstructions}</p>
+        `;
+        container.appendChild(mealDiv);
+    });
+}
+
  
- var oldContent = document.getElementById("container");
-oldContent.textContent = ""; 
 
- for (var i=1; i<data.length; i++){
-
-    var newDiv = document.createElement("div");
-    newDiv.innerHTML = `Meal Title: <b>${data[i-1].strMeal}</b> <br>
-                        <img src="${data[i-1].strMealThumb}"> <br>
-                        Cooking Instructions: ${data[i-1].strInstructions}<br><br>`; 
-    newDiv.classList.add("innerStyle");
-    oldContent.appendChild(newDiv); 
-    
- }
-}
