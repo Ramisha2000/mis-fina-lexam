@@ -21,6 +21,8 @@ oldContent.textContent = "";
     var newDiv = document.createElement("div");
     newDiv.innerHTML = `Meal Title: <b>${data[i-1].strMeal}</b> <br>
                         <img src="${data[i-1].strMealThumb}"> <br>
+                        Meal Name:<b>${data[i-1].strMeal}</b> <br>
+                        Meal ID: <b>${data[i-1].idMeal}</b> <br>
                         Cooking Instructions: ${data[i-1].strInstructions}<br><br>`; 
     newDiv.classList.add("innerStyle");
     oldContent.appendChild(newDiv); 
